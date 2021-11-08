@@ -2,6 +2,10 @@
 
 BASE=$(dirname $0)
 
+if [ -f .env ]; then
+  export $(cat .env | sed 's/#.*//g' | xargs)
+fi
+
 if [[ -z $TOKEN ]]; then
     echo "missing TOKEN env parameter"
 
@@ -26,3 +30,5 @@ else
     sed -i "s/{{ diff }}/$diff/" $BASE/docs/index.html
     echo "non"
 fi
+
+echo "$(date '+%Y-%m-%d %H:%M:%S');$lyrixx_followers_count;$jolicode_followers_count" >> data.csv
